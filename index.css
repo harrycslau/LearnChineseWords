@@ -1,0 +1,28 @@
+body {
+    background-color: #38c;
+  }
+  
+  h1 {
+    text-align: center;
+    color: white;
+    text-shadow: 0 3px 3px #148;
+  }
+  
+  #speech-synthesis-demo {
+    width: 650px;
+    margin: 50px auto 0;
+  }
+  
+  #speech-synthesis-demo td:nth-child(1){
+    color: white;
+    text-shadow: 0 1px 0 #888;
+  }
+  
+  #voicelist, #speech-input, #speak-btn{
+    width: 100%;
+    display: block;
+    margin: 5px;
+    padding: 5px;
+    border: 0;
+    box-sizing: border-box;
+  }
