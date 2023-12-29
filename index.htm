@@ -1,30 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
 
-<link rel="stylesheet" href="index.css">
+    <!-- Level Selection Container -->
+    <div id="level-selection" style="display: block;">
+        <h1>選擇關卡</h1> <!-- Title for level selection -->
+        <div id="level-buttons">
+            <!-- Dynamically create or statically place your level buttons here -->
+            <button class="level-btn">1</button>
+            <button class="level-btn">2</button>
+            <button class="level-btn">3</button>
+            <button class="level-btn">4</button>
+            <button class="level-btn">5</button>
+        </div>
+    </div>
 
-<h1>HTML5 Speech Synthesis</h1>
-<table id="speech-synthesis-demo">
-  <tbody colspan="2">
-  <tr>
-    <td>Voice:</td>
-    <td>
-      <select id="voicelist">
-      </select>
-    </td>
-  </tr>
-  <tr>
-    <td>Text:</td>
-    <td>
-      <textarea rows=6 id="speech-input"></textarea>
-    </td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>
-      <button id="speak-btn">Speak!</button>
-    </td>
-  </tr>
-  </tbody>
-</table>
+    <!-- Game Screen Container -->
+    <div id="game-container" style="display: none;">
+        <h1>中文字猜猜看</h1>
+        <div id="progress-bar-container">
+          <div id="progress-bar">
+              <img id="progress-icon" src="icon/spaceship.png" alt="Progress Icon" />
+          </div>
+        </div>
+        <button id="speak-btn">讀出問題 🔊</button>
+        <div id="speech-input" style="display:none;"></div>
+        <div id="button-container"></div>
+    </div>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
