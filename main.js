@@ -1,10 +1,9 @@
 $(function(){
   var correctAnswer;
-  var defaultVoice; // This will hold the default voice object
   var soundCorrect = new Audio('sound/correct.mp3'); // Create an audio object for the correct sound
   var soundIncorrect = new Audio('sound/incorrect.mp3'); // Create an audio object for the correct sound
   var soundEnd = new Audio('sound/winfantasia.mp3'); 
-  
+
   const ttsheaders = {
     'Ocp-Apim-Subscription-Key': subscriptionKey,
     'Content-Type': 'application/ssml+xml',
@@ -14,7 +13,7 @@ $(function(){
 
   levelSelected = 0;
   nowRound = 0;
-  levelRound = [3, 7, 8, 9, 10];
+  levelRound = [6, 7, 8, 9, 10];
   levelWords =  [
                   ["一", "二", "三", "十", "上", "中", "下", "土", "山", "口", "日", "人", "大", "天", "火", "木", "水", "小", "刀", "石", "牛", "羊", "米", "月", "手", "女", "心", "白", "雨", "力", "車"],
                   ["四", "五", "六", "七", "八", "九", "我", "你", "他", "她", "它", "入", "子", "目", "自", "己", "已", "門", "少", "回", "合", "正", "反", "東", "西", "必", "走", "才", "太", "今", "光"]
