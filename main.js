@@ -4,6 +4,13 @@ $(function(){
   var soundCorrect = new Audio('sound/correct.mp3'); // Create an audio object for the correct sound
   var soundIncorrect = new Audio('sound/incorrect.mp3'); // Create an audio object for the correct sound
   var soundEnd = new Audio('sound/winfantasia.mp3'); 
+  
+  const ttsheaders = {
+    'Ocp-Apim-Subscription-Key': subscriptionKey,
+    'Content-Type': 'application/ssml+xml',
+    'X-Microsoft-OutputFormat': 'audio-16khz-128kbitrate-mono-mp3',
+    'User-Agent': 'curl'
+  };
 
   levelSelected = 0;
   nowRound = 0;
@@ -13,29 +20,6 @@ $(function(){
                   ["四", "五", "六", "七", "八", "九", "我", "你", "他", "她", "它", "入", "子", "目", "自", "己", "已", "門", "少", "回", "合", "正", "反", "東", "西", "必", "走", "才", "太", "今", "光"]
                 ];
 
-  function setDefaultCantoneseVoice() {
-      var voices = speechSynthesis.getVoices();
-      var cantoneseVoice = voices.find(voice => voice.lang === 'zh-HK'); // Primary check for Cantonese based on language code
-      if (!cantoneseVoice) {
-          cantoneseVoice = voices.find(voice => voice.name.includes("Cantonese") || voice.name.includes("粵語"));
-      }
-      if (!cantoneseVoice) {
-          cantoneseVoice = voices.find(voice => voice.lang.startsWith('zh')); // Fallback to any Chinese voice
-      }
-      if (!cantoneseVoice) {
-          cantoneseVoice = voices[0]; // or any other default strategy
-      }
-      defaultVoice = cantoneseVoice;
-  }
-
-  // Load voices and set the default Cantonese voice
-  // Also ensure voices are loaded and default is set
-  speechSynthesis.onvoiceschanged = function() {
-      setDefaultCantoneseVoice();
-  };
-  if(speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = setDefaultCantoneseVoice;
-  }
 
   function soundPlayAndSpeak(sound, text, callback) {
     sound.play(); 
@@ -44,18 +28,31 @@ $(function(){
     };
   }
 
+  // Function to call Azure TTS service
   function soundSpeak(text, callback) {
-    var msg = new SpeechSynthesisUtterance();
-    msg.voice = defaultVoice; 
-    msg.text = text;
-    msg.pitch = 1.1;
-    msg.rate = 1.05;
-    msg.onend = function(event) {
-      if (typeof callback === "function") {
-        callback(); // Call the callback function if provided
-      }
-    };
-    speechSynthesis.speak(msg);
+    const ssml = `
+      <speak version='1.0' xml:lang='zh-HK'>
+        <voice xml:lang='zh-HK' name='zh-HK-HiuMaanNeural'>${text}</voice>
+      </speak>`;
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: ttsheaders,
+      body: ssml
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      const audioUrl = URL.createObjectURL(blob);
+      const audio = new Audio(audioUrl);
+      audio.play();
+      audio.onended = function() {
+        if (typeof callback === "function") {
+          callback(); // Call the callback function if provided
+        }
+        URL.revokeObjectURL(audioUrl); // Clean up the object URL
+      };
+    })
+    .catch(error => console.error("Error with Azure TTS:", error));
   }
 
 
